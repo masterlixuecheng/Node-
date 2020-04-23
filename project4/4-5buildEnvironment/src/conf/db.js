@@ -9,7 +9,7 @@ if (env === 'dev') {
         host: 'localhost',
         user: 'root',
         password: 'root',
-        port: '3006',
+        port: '3306',
         database: 'myblog'
     }
 }
@@ -19,7 +19,7 @@ if (env === 'production') {
         host: 'localhost',
         user: 'root',
         password: 'root',
-        port: '3006',
+        port: '3306',
         database: 'myblog'
     }
 

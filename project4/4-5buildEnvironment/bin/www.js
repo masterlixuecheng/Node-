@@ -5,7 +5,7 @@
 
 const http = require('http')
 
-const PORT = 8010
+const PORT = 4567
 
 const serverHandle = require('../app.js')
 
