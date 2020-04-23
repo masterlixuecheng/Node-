@@ -24,7 +24,7 @@ const getDetail = (id) => {
 
 const newBlog = (blogData = {}) => {
     // blogData ,是一个用户在客户端录入的博客对象，包含title,content等属性
-    // console.log('newBlog blogData...=',blogData)
+    console.log('newBlog blogData...=',blogData)
     const title = blogData.title
     const content = blogData.content
     const createtime = Date.now()
@@ -57,7 +57,7 @@ const updateBlog = (id,blogData = {}) =>{
 }
 
 const delBlog = (id, author) => {
-    const sql = `delete from blogs where id='${id}',author='${author}'`
+    const sql = `delete from blogs where id='${id}' and author='${author}'`
     return exec(sql).then(delData => {
         if (delData.affectedRows > 0) {
             return true

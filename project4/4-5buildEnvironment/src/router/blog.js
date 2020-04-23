@@ -2,13 +2,14 @@
 const { getList, 
         getDetail,
         newBlog,
-        updateBlog
+        updateBlog,
+        delBlog
  } = require('../controller/blog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
 const handleBlogRouter = (req,res) => {
     const method = req.method//GET POST
-    const id = req.query.id
+    const id = req.query.id || req.body.id
     console.log('id...'+id)
     //获取博客列表
     if(method === 'GET' && req.path === '/api/blog/list'){
@@ -63,7 +64,7 @@ const handleBlogRouter = (req,res) => {
     }
     
     //删除博客
-    if(method === 'POST' && req.path === 'api/blog/del'){
+    if(method === 'POST' && req.path === '/api/blog/del'){
         const author = 'zhangsan'//假数据
         const result = delBlog(id,author)
         return result.then(val => {
