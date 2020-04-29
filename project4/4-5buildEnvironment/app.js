@@ -1,12 +1,7 @@
-// 第二层
-// app.js
-// 系统基本信息的配置，
-// 不涉及业务代码的处理
-
 const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
-
+const {get, set} = require('./src/db/redis')
 // session 数据
 const SESSION_DATA = {}
 
@@ -80,25 +75,53 @@ const serverHandle = (req,res) => {
         req.cookie[key] = val
     })
 
-    // 解析 session
+    // 解析 session----------换成redis  so 注释
+    // let needSetCookie = false
+    // let userId = req.cookie.userid
+    // console.log('req.cookie.userid...'+ req.cookie.userid)
+    // if (userId) {
+    //     if (!SESSION_DATA[userId]) {
+    //         SESSION_DATA[userId] = {};
+    //     }
+    // } else {
+    //     needSetCookie = true
+    //     userId = `${Date.now()}_${Math.random()}`
+    //     SESSION_DATA[userId] = {}
+    // }
+    // req.session = SESSION_DATA[userId]
+    // console.log('req.session...'+ JSON.stringify(req.session))
+    
+    //  解析 session
     let needSetCookie = false
     let userId = req.cookie.userid
-    console.log('req.cookie.userid...'+ req.cookie.userid)
-    if (userId) {
-        if (!SESSION_DATA[userId]) {
-            SESSION_DATA[userId] = {};
-        }
-    } else {
+    console.log('req.cookie.userId...' + req.cookie.userid)
+    if (!userId) {
         needSetCookie = true
-        userId = `${Date.now()}_${Math.random()}`
-        SESSION_DATA[userId] = {}
+        userId = `isnew_new_${Date.now()}_${Math.random()}`
+        // 初始化 redis 中的 session 的值
+        set(userId,{})
     }
-    req.session = SESSION_DATA[userId]
-    console.log('req.session...'+ JSON.stringify(req.session))
-    // 在这里加promise
-    getPostData(req).then(postData => {
+    //获取 session
+    req.sessionId = userId
+    console.log('userId...' + userId)
+    console.log('req.sessionId...' + req.sessionId)
+    get(req.sessionId).then(sessionData => {
+        console.log('sessionData...' + JSON.stringify(sessionData))
+        if (sessionData == null) {
+            //初始化 redis 中的 session 的值
+            set(req.sessionId, {})
+            //设置 req 中的 session
+            req.session = {}
+        } else {
+            //设置 session
+            req.session = sessionData
+        }
+
+        // 处理 postData
+        return getPostData(req)
+    })
+    .then(postData => {
         req.body = postData
-        console.log('postData...'+ JSON.stringify(postData))
 
         // 处理blog路由
         // const blogData = handleBlogRouter(req,res)
@@ -109,20 +132,20 @@ const serverHandle = (req,res) => {
         //     return
         // }
 
-        // const blogResult = handleBlogRouter(req, res)
-        // if (blogResult) {
-        //     blogResult.then(blogData => {
-        //         // cookie中没有userid的情况下，各个路由的res.end之前，先设置cookie
-        //         if (needSetCookie) {
-        //             res.setHeader('Set-Cookie',`userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-        //         }
+        const blogResult = handleBlogRouter(req, res)
+        if (blogResult) {
+            blogResult.then(blogData => {
+                // cookie中没有userid的情况下，各个路由的res.end之前，先设置cookie
+                if (needSetCookie) {
+                    res.setHeader('Set-Cookie',`userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+                }
 
-        //         res.end(
-        //             JSON.stringify(blogData)
-        //         )
-        //     })
-        //     return
-        // }
+                res.end(
+                    JSON.stringify(blogData)
+                )
+            })
+            return
+        }
 
         //处理user路由
         // const userData = handleUserRouter(req,res)
@@ -136,7 +159,7 @@ const serverHandle = (req,res) => {
         console.log('userResult...'+ userResult)
         if (userResult) {
             userResult.then(userData => {
-                console.log('userData...'+ userData)
+                console.log('userData...'+ JSON.stringify(userData))
                 if (needSetCookie) {
                     res.setHeader('Set-Cookie',`userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
                 }

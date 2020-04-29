@@ -10,6 +10,10 @@ const MYSQL_CONF = {
     port: '3306',
     database: 'myblog'
 }
+const REDIS_CONF = {
+    host: '127.0.0.1',
+    port: 6379,
+}
 
 // if (env === 'dev') {
 //     MYSQL_CONF = {
@@ -33,5 +37,6 @@ const MYSQL_CONF = {
 // }
 
 module.exports = {
-    MYSQL_CONF
+    MYSQL_CONF,
+    REDIS_CONF
 }
