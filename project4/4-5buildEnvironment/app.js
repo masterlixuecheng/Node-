@@ -2,6 +2,7 @@ const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 const {get, set} = require('./src/db/redis')
+const { access } = require('./src/utils/log')
 // session 数据
 const SESSION_DATA = {}
 
@@ -10,7 +11,6 @@ const SESSION_DATA = {}
 const getCookieExpires = () => {
     const d = new Date()
     d.setTime(d.getTime() + (24*60*60*1000))
-    console.log('d.toGMTString...'+ d.toGMTString())
     return d.toGMTString()
 }
 
@@ -51,6 +51,10 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req,res) => {
+    // 记录 access log
+    access(
+        `${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`
+    )
 
     // 设置返回格式为JSON
     res.setHeader('Content-type','application/json')
@@ -78,7 +82,6 @@ const serverHandle = (req,res) => {
     // 解析 session----------换成redis  so 注释
     // let needSetCookie = false
     // let userId = req.cookie.userid
-    // console.log('req.cookie.userid...'+ req.cookie.userid)
     // if (userId) {
     //     if (!SESSION_DATA[userId]) {
     //         SESSION_DATA[userId] = {};
@@ -89,12 +92,10 @@ const serverHandle = (req,res) => {
     //     SESSION_DATA[userId] = {}
     // }
     // req.session = SESSION_DATA[userId]
-    // console.log('req.session...'+ JSON.stringify(req.session))
     
     //  解析 session
     let needSetCookie = false
     let userId = req.cookie.userid
-    console.log('req.cookie.userId...' + req.cookie.userid)
     if (!userId) {
         needSetCookie = true
         userId = `isnew_new_${Date.now()}_${Math.random()}`
@@ -103,10 +104,7 @@ const serverHandle = (req,res) => {
     }
     //获取 session
     req.sessionId = userId
-    console.log('userId...' + userId)
-    console.log('req.sessionId...' + req.sessionId)
     get(req.sessionId).then(sessionData => {
-        console.log('sessionData...' + JSON.stringify(sessionData))
         if (sessionData == null) {
             //初始化 redis 中的 session 的值
             set(req.sessionId, {})
@@ -156,10 +154,8 @@ const serverHandle = (req,res) => {
         //     return
         // }
         const userResult = handleUserRouter(req, res)
-        console.log('userResult...'+ userResult)
         if (userResult) {
             userResult.then(userData => {
-                console.log('userData...'+ JSON.stringify(userData))
                 if (needSetCookie) {
                     res.setHeader('Set-Cookie',`userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
                 }

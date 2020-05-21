@@ -17,14 +17,12 @@ const getList = (author, keyword) => {
 const getDetail = (id) => {
     let sql = `select * from blogs where id='${id}'`
     return exec(sql).then(rows => {
-        console.log(rows[0])
         return rows[0]
     })
 }
 
 const newBlog = (blogData = {}) => {
     // blogData ,是一个用户在客户端录入的博客对象，包含title,content等属性
-    console.log('newBlog blogData...=',blogData)
     const title = blogData.title
     const content = blogData.content
     const createtime = Date.now()
@@ -42,7 +40,6 @@ const newBlog = (blogData = {}) => {
 const updateBlog = (id,blogData = {}) =>{
     // id是要更新的博客id
     // blogData是一个博客对象，包含id，title，content等属性
-    // console.log('update a blog===',id,blogData)
     const title = blogData.title
     const content = blogData.content
 

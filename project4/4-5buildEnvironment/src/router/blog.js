@@ -9,7 +9,6 @@ const { SuccessModel, ErrorModel } = require('../model/resModel')
 
 // 统一的登录验证函数
 const loginCheck = (req) => {
-    console.log('req.session.username...' + JSON.stringify(req.session))
     if (!req.session.username) {
         return Promise.resolve(
             new ErrorModel('尚未登录')
@@ -21,7 +20,6 @@ const handleBlogRouter = (req,res) => {
     const id = req.query.id
     //获取博客列表
     if(method === 'GET' && req.path === '/api/blog/list'){
-
 
         let author = req.session.username
         const keyword = req.query.keyword || ''
