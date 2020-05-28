@@ -1,5 +1,5 @@
 const { exec } = require('../db/mysql')
-
+const xss = require('xss')
 const getList = (author, keyword) => {
     let sql = `select * from blogs where 1=1 `
     if (author) {
@@ -23,7 +23,7 @@ const getDetail = (id) => {
 
 const newBlog = (blogData = {}) => {
     // blogData ,是一个用户在客户端录入的博客对象，包含title,content等属性
-    const title = blogData.title
+    const title = xss(blogData.title) // 加了 xss 就加这一个吧，意思意思，知道咋回事就行了，对应 《8-2 xss攻击》
     const content = blogData.content
     const createtime = Date.now()
     const author = blogData.author
