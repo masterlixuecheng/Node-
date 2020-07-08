@@ -1,14 +1,15 @@
+const { exec, escape } = require('../db/mysql')
 
-const handleUserRouter = (req,res) => {
-    const method = req.method//GET POST
-
-    //登录
-    if(method === 'POST' && req.path === '/api/user/login'){
-        return {
-            msg:'这就是登录的接口'
-        }
-    }
-
+const login = (username, password) => {
+    username = escape(username)
+    password = escape(password)
+    const sql = `select username, realname from users where username=${username} and password=${password}`
+    console.log('sql...' + sql)
+    return exec(sql).then(rows => {
+        return rows[0] || {}
+    })
 }
 
-module.exports = handleUserRouter
+module.exports = {
+    login
+}
