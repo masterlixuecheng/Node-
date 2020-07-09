@@ -1,0 +1,11 @@
+{
+  "name": "express-test-self-express",
+  "version": "1.0.0",
+  "description": "test the zhongjianjian by self",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
