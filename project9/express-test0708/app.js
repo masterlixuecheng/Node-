@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser'); // 处理 cookie 相当于自己封
 var logger = require('morgan'); // 实现日志记录的功能
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session) //直接把session放进去，就生成RS
-
+const fs = require('fs')
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 const blogRouter = require('./routes/blog');
@@ -17,7 +17,24 @@ var app = express();
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-app.use(logger('dev')); //  实现日志记录的功能
+// 日志
+const ENV = process.env.NODE_ENV
+console.log('ENV...........' + ENV)
+if (ENV !== 'production') {
+  app.use(logger('dev')); //  实现日志记录的功能
+} else {
+  // 线上环境
+  const logFileName = path.join(__dirname, 'logs', 'access.log')
+  const writeStream = fs.createWriteStream(logFileName, {
+    flags: 'a'
+  })
+  app.use(logger('combined', {
+    stream: writeStream
+  }))
+}
+// 日志
+
+
 app.use(express.json()); // 把 post 方式传入的数据处理后存在 req.body 里，相当于getPostData()
 app.use(express.urlencoded({ extended: false }));// 把其他传入的数据处理后存在 req.body 里，相当于getPostData()
 app.use(cookieParser()); // 处理 cookie 相当于自己封装的那个函数
