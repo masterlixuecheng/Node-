@@ -2,32 +2,34 @@
 // 目的：把返回值的各种格式，统一起来
 
 class BaseModel {
-    constructor(data,message) {
+    constructor(data,msg) {
         if (typeof data === 'string') {
-            this.message = data
+            this.msg = data
             data = null
-            message = null
+            msg = null
         }
         if (data) {
             this.data = data
         }
-        if (message) {
-            this.message = message
+        if (msg) {
+            this.msg = msg
         }
     }
 }
 
 class SuccessModel extends BaseModel {
-    constructor(data,message) {
-        super(data,message)//执行父函数并传值data，message
+    constructor(data,msg) {
+        super(data,msg)//执行父函数并传值data，message
         this.success = true
         this.errno = 0
+        this.totalCount = data.length
+        this.dataList = Array.prototype.slice.call(data)
     }
 }
 
 class ErrorModel extends BaseModel {
-    constructor(data,message) {
-        super(data,message)
+    constructor(data,msg) {
+        super(data,msg)
         this.success = false
         this.errno = -1
     }

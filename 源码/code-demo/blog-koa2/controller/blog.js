@@ -10,7 +10,8 @@ const getList = async (author, keyword) => {
         sql += `and title like '%${keyword}%' `
     }
     sql += `order by createtime desc;`
-
+    console.log('LISTSQL...' + sql);
+    
     return await exec(sql)
 }
 

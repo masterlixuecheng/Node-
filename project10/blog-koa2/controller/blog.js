@@ -2,16 +2,21 @@ const xss = require('xss')
 const { exec } = require('../db/mysql')
 
 
-const getList = async (author, keyword) => {
-    let sql = `select * from blogs where 1=1 `
-    // if (author) {
-    //     sql += `and author='${author}' `
-    // }
-    // if (keyword) {
-    //     sql += `and title like '%${keyword}%' `
-    // }
-    sql += `order by createtime desc;`
+const getList = async (obj) => {
 
+    let sql = `select * from blogs where 1=1 `
+    if (obj.author) {
+        sql += `and author='${obj.author}' `
+    }
+    if (obj.keyword) {
+        sql += `and title like '%${obj.keyword}%' `
+    }
+    let pageNo = obj.pageNo - 1
+    let pageSize = obj.pageSize
+    sql += `order by createtime desc limit ${pageNo},${pageSize};`
+    // sql += `order by createtime desc limit ${pageNo},${pageSize}; select count(*) from blogs as total`
+    console.log('sql...'+ sql);
+    
     // 返回 promise
     return await exec(sql)
 }
@@ -35,11 +40,6 @@ const newBlog = async (blogData = {}) => {
 
     const sql = `insert into blogs (title,content,createtime,author) values ('${title}', '${content}', ${createtime}, '${author}')`
     
-    // return await exec(sql).then(insertData => {
-    //     return {
-    //         id: insertData.insertId
-    //     }
-    // })
     const insertData = await exec(sql)
     return {
         id: insertData.insertId
