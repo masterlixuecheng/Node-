@@ -16,9 +16,17 @@ const getList = async (obj) => {
     sql += `order by createtime desc limit ${pageNo},${pageSize};`
     // sql += `order by createtime desc limit ${pageNo},${pageSize}; select count(*) from blogs as total`
     console.log('sql...'+ sql);
-    
+    let sqlForTotal = 'select count(*) tot from blogs'
+    let a = []
+    let b = null
+    a = await exec(sql)
+    b = await exec(sqlForTotal)
+    const data = {
+        data : a,
+        totalCount: b[0].tot
+    }
     // 返回 promise
-    return await exec(sql)
+    return data
 }
 
 const getDetail = async (id) => {

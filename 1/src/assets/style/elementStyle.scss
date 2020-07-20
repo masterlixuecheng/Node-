@@ -1,0 +1,82 @@
+.el-form-item__error {
+  top: 50%;
+  right: 0;
+  margin-top: -8.5px;
+  left: auto;
+  margin-right: 10px;
+}
+
+.el-form--inline {
+  .el-row {
+    .el-col {
+      .el-form-item {
+        display: flex;
+      }
+    }
+  }
+}
+
+.el-form--inline {
+  .el-row {
+    .el-col {
+      .el-form-item {
+        .el-form-item__content {
+          flex: 1;
+          width: 0;
+
+          .el-select {
+            width: 100% !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.el-form-item__content {
+
+  .el-select,
+  .el-cascader {
+    width: 100% !important;
+  }
+}
+
+.el-input {
+  width: 100% !important;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100% !important;
+}
+
+.el-scrollbar {
+  height: 100%;
+
+  .el-scrollbar__wrap {
+    overflow-x: hidden !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+.el-pagination {
+  text-align: right;
+}
+
+.el-dialog__body {
+  .el-scrollbar {
+    height: 60vh;
+  }
+}
+
+.el-submenu {
+
+  &.is-active,
+  &.is-open {
+
+    i,
+    span {
+      color: #307ecc !important;
+    }
+  }
+}

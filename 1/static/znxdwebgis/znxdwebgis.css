@@ -1,0 +1,146 @@
+﻿body, #map {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100vh;
+	font-size: 13px;
+}
+
+.ol-popup {
+	display: none;
+	position: absolute;
+	background-color: white;
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+	-webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+	filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+	border: 1px solid #cccccc;
+	bottom: 12px;
+	left: -50px;
+	width: 260px;
+}
+
+.ol-popup:after, .ol-popup:before {
+	top: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.ol-popup:after {
+	border-top-color: white;
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+
+.ol-popup:before {
+	border-top-color: #cccccc;
+	border-width: 11px;
+	left: 48px;
+	margin-left: -11px;
+}
+
+.popup-title {
+	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+	padding: 5px 8px;
+}
+
+.popup-content {
+	padding: 5px 8px;
+}
+
+.ol-popup-closer {
+	text-decoration: none;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+}
+
+.ol-popup-closer:after {
+	content: "✖";
+}
+
+.ol-control button {
+	display: block !important;
+}
+
+.mouse-position-wrapper {
+	width: 300px;
+	height: 29px;
+	color: #FFFFFF;
+	position: absolute;
+	right: 20px;
+	bottom: 6px;
+	z-index: 999;
+}
+
+.ol-rotate {
+	right: 40px;
+}
+
+.ol-scale-line {
+	left: 100px;
+}
+
+.rotate-north {
+	top: 0px;
+	left: 50%;
+}
+
+.ol-touch .rotate-north {
+	top: 80px;
+}
+
+.button-label {
+	position: absolute;
+	width: 60%;
+	height: 200px;
+	top: -210px;
+	left: 20%;
+	border: 5px solid #96c2f1;
+	border-radius: 5px;
+	background: #ffffff;
+	overflow-y: auto
+}
+
+/*测量样式*/
+.tooltip {
+	position: relative;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 4px;
+	color: white;
+	padding: 4px 8px;
+	opacity: 0.7;
+	white-space: nowrap;
+}
+
+.tooltip-measure {
+	opacity: 1;
+	font-weight: bold;
+}
+
+.tooltip-static {
+	background-color: #ffcc33;
+	color: black;
+	border: 1px solid white;
+}
+
+.tooltip-measure:before, .tooltip-static:before {
+	border-top: 6px solid rgba(0, 0, 0, 0.5);
+	border-right: 6px solid transparent;
+	border-left: 6px solid transparent;
+	content: "";
+	position: absolute;
+	bottom: -6px;
+	margin-left: -7px;
+	left: 50%;
+}
+
+.tooltip-static:before {
+	border-top-color: #ffcc33;
+}

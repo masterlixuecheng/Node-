@@ -22,8 +22,8 @@ class SuccessModel extends BaseModel {
         super(data,msg)//执行父函数并传值data，message
         this.success = true
         this.errno = 0
-        this.totalCount = data.length
-        this.dataList = Array.prototype.slice.call(data)
+        // this.totalCount = data.length
+        // this.dataList = Array.prototype.slice.call(data)
     }
 }
 

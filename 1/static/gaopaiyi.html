@@ -1,0 +1,334 @@
+<!--
+    Auto-generated test-site
+-->
+<html>
+
+<head>
+  <title>test page for object fbcontrol</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=8">
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">
+</head>
+<style>
+  html {
+    height: 96%;
+  }
+
+  body {
+    height: 96%;
+  }
+  a{
+    text-decoration: none;
+  }
+  .btnDownload{
+    display: block;
+    width:300px;
+    height:70px;
+    background: #66b1ff;
+    color:white;
+    font-size:18px;
+    text-decoration: none;
+    line-height: 70px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight:700;
+  }
+
+</style>
+<script type="text/javascript">
+  var dev1;
+  var dev2;
+  var video;
+
+  function plugin() {
+    return document.getElementById('view1');
+  }
+
+  function view() {
+    return document.getElementById('view1');
+  }
+
+  function thumb1() {
+    return document.getElementById('thumb1');
+  }
+
+  function addEvent(obj, name, func) {
+    if (obj.attachEvent) {
+      obj.attachEvent("on" + name, func);
+    } else {
+      obj.addEventListener(name, func, false);
+    }
+  }
+
+  function OpenVideo() {
+    CloseVideo();
+
+    var sSubType = document.getElementById('subType');
+    var sResolution = document.getElementById('selRes');
+    var sDevice = document.getElementById('device');
+
+    var SelectType = 0;
+    var txt;
+    if (sSubType.options.selectedIndex != -1) {
+      txt = sSubType.options[sSubType.options.selectedIndex].text;
+      if (txt == "YUY2") {
+        SelectType = 1;
+      } else if (txt == "MJPG") {
+        SelectType = 2;
+      } else if (txt == "UYVY") {
+        SelectType = 4;
+      }
+    }
+
+    // var nResolution = sResolution.selectedIndex;
+    var nResolution = 4;
+    var dev;
+    if (sDevice.selectedIndex == 0)
+      dev = dev1;
+    else if (sDevice.selectedIndex == 1)
+      dev = dev2;
+
+    video = plugin().Device_CreateVideo(dev, nResolution, SelectType);
+    if (video) {
+
+      view().View_SelectVideo(video);
+      view().View_SetText("打开视频中，请等待...", 0);
+    }
+  }
+
+  function CloseVideo() {
+    if (video) {
+      view().View_SetText("", 0);
+      plugin().Video_Release(video);
+      video = null;
+    }
+  }
+
+
+  function Load() {
+    //设备接入和丢失
+    //type设备类型， 1 表示视频设备， 2 表示音频设备
+    //idx设备索引
+    //dbt 1 表示设备到达， 2 表示设备丢失		
+    addEvent(plugin(), 'DevChange', function (type, idx, dbt) {
+      if (1 != type) {
+        return;
+      }
+      if (0 == idx) {
+        if (1 == dbt) {
+          dev1 = plugin().Global_CreateDevice(1, 0);
+          if (dev1) {
+            var sSubType = document.getElementById('subType');
+            var sResolution = document.getElementById('selRes');
+            var lDeviceName = document.getElementById('lab1');
+            var sDevice = document.getElementById('device');
+
+            sDevice.options.length = 0;
+            sDevice.add(new Option(plugin().Device_GetFriendlyName(dev1)));
+
+            sSubType.options.length = 0;
+            var subType = plugin().Device_GetSubtype(dev1);
+            if (subType & 1) {
+              sSubType.add(new Option("YUY2"));
+            }
+            if (subType & 2) {
+              sSubType.add(new Option("MJPG"));
+            }
+            if (subType & 4) {
+              sSubType.add(new Option("UYVY"));
+            }
+            sSubType.selectedIndex = 0;
+
+            var SelectType = 0;
+            var txt;
+            if (sSubType.options.selectedIndex != -1) {
+              var txt = sSubType.options[sSubType.options.selectedIndex].text;
+              if (txt == "YUY2") {
+                SelectType = 1;
+              } else if (txt == "MJPG") {
+                SelectType = 2;
+              } else if (txt == "UYVY") {
+                SelectType = 4;
+              }
+            }
+
+            var nResolution = plugin().Device_GetResolutionCountEx(dev1, SelectType);
+            sResolution.options.length = 0;
+            for (var i = 0; i < nResolution; i++) {
+              var width = plugin().Device_GetResolutionWidthEx(dev1, SelectType, i);
+              var heigth = plugin().Device_GetResolutionHeightEx(dev1, SelectType, i);
+              sResolution.add(new Option(width.toString() + "*" + heigth.toString()));
+            }
+            sResolution.selectedIndex = 4;
+            // sResolution.selectedIndex = 0;
+
+            OpenVideo();
+
+          }
+        } else if (2 == dbt) {
+          if (dev1) {
+            if (plugin().Device_GetIndex(dev1) == idx) {
+              if (video) {
+                view().View_SetText("", 0);
+                plugin().Video_Release(video);
+                video = null;
+              }
+              plugin().Device_Release(dev1);
+              dev1 = null;
+
+              document.getElementById('device').options[0] = null;
+            }
+          }
+          if (dev2) {
+            if (plugin().Device_GetIndex(dev2) == idx) {
+              if (video) {
+                view().View_SetText("", 0);
+                plugin().Video_Release(video);
+                video = null;
+              }
+              plugin().Device_Release(dev2);
+              dev2 = null;
+
+              document.getElementById('device').options[1] = null;
+            }
+          }
+        }
+      } else if (1 == idx) {
+        if (1 == dbt) {
+          dev2 = plugin().Global_CreateDevice(1, 1);
+          if (dev2) {
+            var sDevice = document.getElementById('device');
+            sDevice.add(new Option(plugin().Device_GetFriendlyName(dev2)));
+          }
+        } else if (2 == dbt) {
+          if (dev1) {
+            if (plugin().Device_GetIndex(dev1) == idx) {
+              if (video) {
+                view().View_SetText("", 0);
+                plugin().Video_Release(video);
+                video = null;
+              }
+              plugin().Device_Release(dev1);
+              dev1 = null;
+
+              document.getElementById('device').options[0] = null;
+            }
+          }
+          if (dev2) {
+            if (plugin().Device_GetIndex(dev2) == idx) {
+              if (video) {
+                view().View_SetText("", 0);
+                plugin().Video_Release(video);
+                video = null;
+              }
+              plugin().Device_Release(dev2);
+              dev2 = null;
+
+              document.getElementById('device').options[1] = null;
+            }
+          }
+        }
+      }
+    });
+
+
+    view().Global_SetWindowName("view");
+    thumb1().Global_SetWindowName("thumb");
+
+    plugin().Global_InitDevs();
+  }
+
+  function Unload() {
+    if (video) {
+      view().View_SetText("", 0);
+      plugin().Video_Release(video);
+      video = null;
+    }
+    if (dev1) {
+      plugin().Device_Release(dev1);
+      dev1 = null;
+    }
+    if (dev2) {
+      plugin().Device_Release(dev2);
+      dev2 = null;
+    }
+    plugin().Global_DeinitDevs();
+  }
+
+  function Scan() {
+    var date = new Date();
+    var yy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+    var hh = date.getHours().toString();
+    var nn = date.getMinutes().toString();
+    var ss = date.getSeconds().toString();
+    var mi = date.getMilliseconds().toString();
+    var Name = "D:\\" + yy + mm + dd + hh + nn + ss + mi + ".jpg";
+    var Name2 = yy + mm + dd + hh + nn + ss + mi + ".jpg";
+    var img = plugin().Video_CreateImage(video, 0, view().View_GetObject());
+    let obj = {
+      fileName: Name2,
+      base64File: plugin().Image_GetBase64(img, 2, 0)
+    }
+    window.sessionStorage.setItem("tofather", JSON.stringify(obj));
+    parent.document.getElementById("tofather").click();
+
+    var bSave = plugin().Image_Save(img, Name, 0);
+    if (bSave) {
+      view().View_PlayCaptureEffect();
+      thumb1().Thumbnail_Add(Name);
+    }
+
+    plugin().Image_Release(img);
+
+  }
+
+  function Left() {
+    if (video) {
+      plugin().Video_RotateLeft(video);
+    }
+    if (video2) {
+      plugin().Video_RotateLeft(video2);
+    }
+
+  }
+
+  function Right() {
+    if (video) {
+      plugin().Video_RotateRight(video);
+    }
+    if (video2) {
+      plugin().Video_RotateRight(video2);
+    }
+
+  }
+
+</script>
+
+<body onload="Load()" onunload="Unload()">
+  <object id="view1" type="application/x-eloamplugin" width="100%" height="90%" name="view">
+    <a href="http://lingwu.admin.sztdcqjy.com/assets/plug/eloamPlugin.rar"><span class="btnDownload">下载安装高拍仪插件</span></a>
+    <p>1.下载后解压到本地</p>
+    <br>
+    <p>2.运行安装eloamPlugin.exe</p>
+    <br>
+    <p>3.重启浏览器</p>
+    <br>
+    <p style="color:red">温馨提示：为保证您正常使用,请使用360浏览器(兼容模式),IE浏览器</p>
+  </object>
+  <br />
+  <object style="display:none;" id="thumb1" type="application/x-eloamplugin" width="600" height="150" name="thumb">
+  </object>
+  <label id="lab1">设备</label>
+  <select id="device" style="width: 90px;display: none" name="device" onchange="changeDev()"></select>
+  <select id="subType" style="width: 90px;display: none" name="subType" onchange="changesubType()"></select>
+  <select id="selRes" style="width: 90px;display: none;" name="selRes"></select>
+  <input class="submit_01" type="button" value="打开视频" onclick="OpenVideo()" />
+  <input class="submit_01" type="button" value="左转" onclick="Left()" />
+  <input class="submit_01" type="button" value="右转" onclick="Right()" />
+  <!-- <input class="submit_01" type="button" value="关闭视频" onclick="CloseVideo()" /> -->
+  <input class="submit_01" type="button" value="拍照" onclick="Scan()" />
+</body>
+
+</html>
