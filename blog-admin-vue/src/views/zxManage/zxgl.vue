@@ -47,7 +47,7 @@
         queryFrom: {},
         pageObj: {
           pageNo: 1,
-          pageSize: 50
+          pageSize: 5
         },
         tableData: [],
         multipleSelection: [],
@@ -179,8 +179,8 @@
         postMethod('/blog/list', obj).then(res => {
           let data = res.data;
           if (data.success) {
-            this.tableData = data.dataList;
-            this.pageObj.totalCount = data.totalCount;
+            this.tableData = data.data.data;
+            this.pageObj.totalCount = data.data.totalCount;
           }
         });
       },

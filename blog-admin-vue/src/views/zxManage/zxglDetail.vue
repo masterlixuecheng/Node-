@@ -10,9 +10,9 @@
       <el-form-item label="关键字">
         <el-input v-model="formData.keywords" placeholder="多个关键字用空格隔开"></el-input>
       </el-form-item> -->
-      <!-- <el-form-item label="图片" v-if="isPic">
+      <el-form-item label="图片">
         <img-upload :action="action" v-model="formData.tp"></img-upload>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item label="内容">
         <Tinymce ref="editor" v-model="formData.content"/>
       </el-form-item>
@@ -41,7 +41,7 @@ export default {
         title: [{ required: true, message: "不能为空" }]
       },
       tableData: [],
-      action: "/dept/file/ajax/upload_file",
+      action: "/blog/upload",
       action2: "/CqjyFz/file/ajax/upload_file"
     };
   },
