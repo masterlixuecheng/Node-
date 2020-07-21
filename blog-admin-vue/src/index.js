@@ -20,10 +20,10 @@ import '@/components'
 import 'whatwg-fetch'
 
 // import '../static/znxdwebgis/jsts.min.js'
-import '../static/znxdwebgis/znxdmap.js'
-import '../static/znxdwebgis/znxdmap.css'
-import '../static/znxdwebgis/znxdwebgis.css'
-import '../static/znxdwebgis/znxdwebgis.js'
+// import '../static/znxdwebgis/znxdmap.js'
+// import '../static/znxdwebgis/znxdmap.css'
+// import '../static/znxdwebgis/znxdwebgis.css'
+// import '../static/znxdwebgis/znxdwebgis.js'
 
 // window.jsts = require("jsts");
 

@@ -86,28 +86,28 @@ export default {
 .el-submenu__title i {
   color: #fff;
 }
-.el-menu-item:hover {
-  background-color: rgb(38, 51, 64) !important;
-}
-.el-submenu:hover {
-  .el-submenu__title {
-    background-color: rgb(38, 51, 64) !important;
-  }
-}
-.el-menu-item.is-active {
-  color: #36ddff !important;
-  background-color: #2a2a2a !important;
-}
-.is-active {
-  .el-submenu__title {
-    background-color: #2a2a2a !important;
-  }
-}
+// .el-menu-item:hover {
+//   background-color: rgb(38, 51, 64) !important;
+// }
+// .el-submenu:hover {
+//   .el-submenu__title {
+//     background-color: rgb(38, 51, 64) !important;
+//   }
+// }
+// .el-menu-item.is-active {
+//   color: #36ddff !important;
+//   background-color: #2a2a2a !important;
+// }
+// .is-active {
+//   .el-submenu__title {
+//     background-color: #2a2a2a !important;
+//   }
+// }
 .el-submenu.is-active i,
 .el-submenu.is-active span,
 .el-submenu.is-open i,
 .el-submenu.is-open span {
-  color: #36ddff !important;
+  // color: #36ddff !important;
 }
 .el-menu--collapse .el-menu .el-submenu,
 .el-menu--popup {

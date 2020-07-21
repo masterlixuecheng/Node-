@@ -7,16 +7,18 @@ const InnerLayout = () =>
 
 Vue.use(Router)
 
-export const constantRouterMap = [{
+// 解决点击当前页面路由控制台报错问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
+export const constantRouterMap = [
+  {
     path: '/login',
     hidden: true,
     component: () =>
       import("@/views/login/login")
-  }, {
-    path: '/sso/logout',
-    hidden: true,
-    component: () =>
-      import("@/views/login/logout")
   },
   {
     path: '/',

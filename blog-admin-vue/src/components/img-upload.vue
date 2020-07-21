@@ -1,6 +1,6 @@
 <template>
   <el-upload class="my_uploade" :action="fullAction" :show-file-list="false" :before-remove="beforeRemove" :on-remove="handleRemove" :on-progress="handleProgress" :on-success="handleSuccess" :on-error="handleError">
-    <img v-if="value" :src="baseUrl+value" class="avatar">
+    <img v-if="value" :src="value" class="avatar">
     <i v-else class="el-icon-plus my_uploade_icon"></i>
   </el-upload>
 </template>
@@ -48,7 +48,7 @@ export default {
         fileList.splice(fileList.length - 1, 1);
         return;
       }
-      this.$emit("input", res.msg);
+      this.$emit("input", res.data.msg);
     },
     handleError(err, file, fileList) {
       this.loading.close();

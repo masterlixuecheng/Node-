@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { getLodop } from "@/utils/LodopFuncs";
+// import { getLodop } from "@/utils/LodopFuncs";
 export default {
   name: "file-upload",
   data() {
@@ -73,19 +73,19 @@ export default {
     handlePreview(file) {
       this.viewer.view(this.fileList.findIndex(f => f.url == file.url));
     },
-    handlePrinter(file) {
-      const LODOP = getLodop();
-      LODOP.PRINT_INIT("");
-      LODOP.ADD_PRINT_IMAGE(
-        30,
-        20,
-        600,
-        600,
-        "<img border='0' src='" + file.url + "' />"
-      );
-      LODOP.SET_PRINT_STYLEA(0, "Stretch", 2); //按原图比例(不变形)缩放模式
-      LODOP.PREVIEW();
-    },
+    // handlePrinter(file) {
+    //   const LODOP = getLodop();
+    //   LODOP.PRINT_INIT("");
+    //   LODOP.ADD_PRINT_IMAGE(
+    //     30,
+    //     20,
+    //     600,
+    //     600,
+    //     "<img border='0' src='" + file.url + "' />"
+    //   );
+    //   LODOP.SET_PRINT_STYLEA(0, "Stretch", 2); //按原图比例(不变形)缩放模式
+    //   LODOP.PREVIEW();
+    // },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },

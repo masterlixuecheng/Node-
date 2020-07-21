@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       "/api": {
         // target: "http://119.90.57.29:15502", //产交项目ceshi
-        target: "http://localhost:8000", //产交项目ceshi
+        target: "http://localhost:7000", //产交项目ceshi
         router: {
           '/wh': 'http://221.2.160.130:6789'
         },

@@ -5,7 +5,7 @@ const json = require('koa-json')// error 处理json
 const onerror = require('koa-onerror')// error 处理错误
 const bodyparser = require('koa-bodyparser')// error 处理接收的请求值
 const logger = require('koa-logger')// error 没有日志记录的功能，至少开发环境让控制台更优美
-
+const multer = require('koa-multer');//加载koa-multer模块
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 // 日志
@@ -19,6 +19,7 @@ const index = require('./routes/index')// error 引入路由文件
 const users = require('./routes/users')// error 
 const blog = require('./routes/blog')// error 
 const user = require('./routes/user')// error 
+const file = require('./routes/file')// error 
 
 const { REDIS_CONF } = require('./conf/db')
 // error handler
@@ -78,11 +79,15 @@ app.use(session({
 // cnpm i koa-generic-session koa-redis redis --save
 // 安装三个依赖，启动redis服务，配置上述代码，就成功了，这也太简单了
 
+
+
+
 // routes 注册路由
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(user.routes(), user.allowedMethods())
 app.use(blog.routes(), blog.allowedMethods())
+app.use(file.routes(), file.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

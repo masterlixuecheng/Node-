@@ -1,7 +1,7 @@
 <template>
   <div class="navHead">
     <span class="headName">
-      博客管理系统
+      <!-- 博客管理系统 -->
       <!-- <img :src="downloadUrl + dhtp" alt class="fl" style="margin:18px 0 0 16px;"> -->
       <!-- <img src="../../assets/images/logText.png" class="fl" style="margin:22px 0 0 20px;"> -->
     </span>

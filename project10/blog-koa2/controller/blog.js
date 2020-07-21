@@ -44,9 +44,10 @@ const newBlog = async (blogData = {}) => {
     const title = xss(blogData.title) // 加了 xss 就加这一个吧，意思意思，知道咋回事就行了，对应 《8-2 xss攻击》
     const content = blogData.content
     const createtime = Date.now()
+    const picture = blogData.picture
     const author = blogData.author
 
-    const sql = `insert into blogs (title,content,createtime,author) values ('${title}', '${content}', ${createtime}, '${author}')`
+    const sql = `insert into blogs (title,content,createtime,author,picture) values ('${title}', '${content}', ${createtime}, '${author}', '${picture}')`
     
     const insertData = await exec(sql)
     return {
@@ -60,8 +61,9 @@ const updateBlog = async (id,blogData = {}) =>{
     // blogData是一个博客对象，包含id，title，content等属性
     const title = blogData.title
     const content = blogData.content
+    const picture = blogData.picture
 
-    const sql = `update blogs set title='${title}', content='${content}' where id='${id}'`
+    const sql = `update blogs set title='${title}', content='${content}', picture='${picture}' where id='${id}'`
 
     // return await exec(sql).then(updataData => {
     //     if (updataData.affectedRows > 0) {
