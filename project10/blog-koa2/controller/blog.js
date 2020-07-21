@@ -11,8 +11,8 @@ const getList = async (obj) => {
     if (obj.keyword) {
         sql += `and title like '%${obj.keyword}%' `
     }
-    let pageNo = obj.pageNo - 1
     let pageSize = obj.pageSize
+    let pageNo = (obj.pageNo - 1) * pageSize
     sql += `order by createtime desc limit ${pageNo},${pageSize};`
     // sql += `order by createtime desc limit ${pageNo},${pageSize}; select count(*) from blogs as total`
     console.log('sql...'+ sql);
