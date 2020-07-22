@@ -1,8 +1,6 @@
 const router = require('koa-router')()
 const multer = require('koa-multer');//加载koa-multer模块
-const { getList,} = require('../controller/blog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
-const loginCheck = require('../midleware/loginCheck')
 
 router.prefix('/api/file') // 加了这一个行，一下所有的接口前面都要加上/blog
 

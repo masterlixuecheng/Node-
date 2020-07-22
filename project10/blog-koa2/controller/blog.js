@@ -4,7 +4,7 @@ const { exec } = require('../db/mysql')
 
 const getList = async (obj) => {
 
-    let sql = `select * from blogs where 1=1 `
+    let sql = `select id,picture,title,author,createtime from blogs where 1=1 `
     if (obj.author) {
         sql += `and author='${obj.author}' `
     }
@@ -14,7 +14,6 @@ const getList = async (obj) => {
     let pageSize = obj.pageSize
     let pageNo = (obj.pageNo - 1) * pageSize
     sql += `order by createtime desc limit ${pageNo},${pageSize};`
-    // sql += `order by createtime desc limit ${pageNo},${pageSize}; select count(*) from blogs as total`
     console.log('sql...'+ sql);
     let sqlForTotal = 'select count(*) tot from blogs'
     let a = []
@@ -28,6 +27,32 @@ const getList = async (obj) => {
     // 返回 promise
     return data
 }
+// const getList = async (obj) => {
+
+//     let sql = `select * from blogs where 1=1 `
+//     if (obj.author) {
+//         sql += `and author='${obj.author}' `
+//     }
+//     if (obj.keyword) {
+//         sql += `and title like '%${obj.keyword}%' `
+//     }
+//     let pageSize = obj.pageSize
+//     let pageNo = (obj.pageNo - 1) * pageSize
+//     sql += `order by createtime desc limit ${pageNo},${pageSize};`
+//     // sql += `order by createtime desc limit ${pageNo},${pageSize}; select count(*) from blogs as total`
+//     console.log('sql...'+ sql);
+//     let sqlForTotal = 'select count(*) tot from blogs'
+//     let a = []
+//     let b = null
+//     a = await exec(sql)
+//     b = await exec(sqlForTotal)
+//     const data = {
+//         data : a,
+//         totalCount: b[0].tot
+//     }
+//     // 返回 promise
+//     return data
+// }
 
 const getDetail = async (id) => {
     let sql = `select * from blogs where id='${id}'`
